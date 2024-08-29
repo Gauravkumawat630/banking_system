@@ -1,0 +1,23 @@
+<h1>Account: <%= @account.user %></h1>
+<p>Current Balance: <%= @account.balance %></p>
+
+<%= form_with url: account_transactions_path(@account), method: :post, local: true do |form| %>
+  <div>
+    <%= form.label :amount, 'Amount:' %>
+    <%= form.number_field :amount, step: 0.01 %>
+  </div>
+
+  <div>
+    <%= form.label :transaction_type, 'Transaction Type:' %>
+    <%= form.select :transaction_type, options_for_select([['Add Money', 'add'], ['Withdraw Money', 'withdraw']]) %>
+  </div>
+
+  <%= form.submit 'Submit' %>
+<% end %>
+
+<h2>Transaction History</h2>
+<ul>
+  <% @account.transactions.each do |transaction| %>
+    <li><%= transaction.transaction_type.capitalize %> - <%= transaction.amount %></li>
+  <% end %>
+</ul>
